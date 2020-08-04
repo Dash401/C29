@@ -8,6 +8,8 @@ var box1, pig1;
 var backgroundImg,platform;
 var bird, slingShot;
 
+var gamestate = "rest";
+
 function preload() {
     backgroundImg = loadImage("sprites/bg.png");
 }
@@ -36,10 +38,10 @@ function setup(){
     log4 = new Log(760,120,150, PI/7);
     log5 = new Log(870,120,150, -PI/7);
 
-    bird = new Bird(100,100);
+    bird = new Bird(200,75);
 
     //log6 = new Log(230,180,80, PI/2);
-    slingshot = new SlingShot(bird.body,{x:200, y:100});
+    slingshot = new SlingShot(bird.body,{x:200, y:75});
 }
 
 function draw(){
@@ -68,10 +70,20 @@ function draw(){
 }
 
 function mouseDragged(){
+    if (gamestate === "drag"){
     Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+    }
 }
 
 
 function mouseReleased(){
+  if (gamestate === "drag"){
     slingshot.fly();
+  }
+}
+function mousePressed(event){
+   if(event.x > 175 && event.x < 225 && event.y > 85 && event.y < 135){
+     gamestate = "drag";
+   }
+   console.log(event);
 }
